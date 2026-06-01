@@ -16,8 +16,8 @@ function App() {
 
   // Filtrado lógico (se mantiene igual)
   const modelosFiltrados = modelos.filter((item) =>
-    item.name.toLowerCase().includes(busqueda.toLowerCase())
-  );
+  item.name?.toLowerCase().includes(busqueda.toLowerCase())
+);
 
   if (cargando) return <h2 style={{color: 'white', textAlign: 'center'}}>Conectando con Green Amps...</h2>;
   if (error) return <h2 style={{color: 'red', textAlign: 'center'}}>{error}</h2>;

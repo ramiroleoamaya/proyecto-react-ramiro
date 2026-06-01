@@ -1,13 +1,63 @@
-<!doctype html>
-<html lang="en">
-  <head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>proyecto-react-ramiro</title>
-  </head>
-  <body>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- Hojas de estilo de Bootstrap y personalizadas -->
+    <link rel="stylesheet" href="/bootstrap.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    
+    <title>Green Amps - Sonido con Identidad</title>
+</head>
+<body class="body">
+
+    <!-- Estructura clásica de tu cabecera -->
+    <header class="header">
+        <div class="logo">
+            <img src="/imagenes/green amps1.png" class="logoamp" alt="Logo de marca Green Amps" width="200" height="200" />
+        </div>
+        <h1 class="titulo1">AMPLIFICADORES DE BAJO Y GUITARRA</h1>
+        <nav class="navegador">
+            <ul>
+                <li><a href="/">INICIO</a></li>
+                <li><a href="/productos-y-servicios.html">PRODUCTOS Y SERVICIOS</a></li>
+                <li><a href="/contacto.html">CONTACTO</a></li>
+            </ul>
+        </nav>
+    </header>
+     
+    <!-- Contenido estático de presentación usando Mobile First de Bootstrap -->
+    <main class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-12 col-md-6 mb-4 mb-md-0">
+                <h2 class="titulo1">Sonido con Identidad</h2>
+                <section id="inicio">
+                    <p>
+                        Somos una empresa técnica familiar dedicada a la fabricación y venta de amplificadores
+                        para bajo y guitarra eléctricas.<br />
+                        Ubicados en Buenos Aires - Argentina.<br />
+                        Trabajamos para ayudarte a encontrar el sonido de tu voz artística desde 1991.
+                    </p>
+                </section>   
+            </div>
+            <div class="col-12 col-md-6 text-center">
+                <img src="/imagenes/fotodeampsgreen.jpeg" class="img-fluid rounded shadow" alt="Amplificador Green Amps" />
+            </div>
+        </div>
+    </main>
+
+    <!-- El enchufe secreto donde React va a armar el catálogo dinámico y el carrito -->
     <div id="root"></div>
+
+    <footer class="footer">
+        <p>&copy; COPYRIGHT - SALAMANDRA - 2026</p>
+    </footer>
+
+    <!-- Script crucial para que Vite compile tu lógica de JS y React -->
     <script type="module" src="/src/main.jsx"></script>
-  </body>
+
+</body>
 </html>
