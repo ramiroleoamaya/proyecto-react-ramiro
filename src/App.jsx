@@ -1,69 +1,43 @@
-// src/App.jsx
 import { useState } from 'react';
-import { useFetch } from './hooks/useFetch'; // Importamos tu nuevo Custom Hook
-import Amplificador from './components/Amplificador';
+// 1. Importamos tu Custom Hook desde la carpeta hooks
+import { useFetch } from './hooks/useFetch'; 
 
-function App() {
-  const [totalCarrito, setTotalCarrito] = useState(0);
-  const [busqueda, setBusqueda] = useState("");
+export default function App() {
+  // 2. Lo ejecutamos pasándole una URL de prueba (Trae una lista de usuarios simulados)
+  const { data, cargando, error } = useFetch('https://jsonplaceholder.typicode.com/users');
 
-  // Usamos el Custom Hook apuntando a la API
-  const { data: modelos, cargando, error } = useFetch('https://jsonplaceholder.typicode.com/users');
-
-  const sumarAlGlobal = () => setTotalCarrito(totalCarrito + 1);
-
-  const manejarBusqueda = (e) => setBusqueda(e.target.value);
-
-  // Filtrado lógico (se mantiene igual)
-  const modelosFiltrados = modelos.filter((item) =>
-  item.name?.toLowerCase().includes(busqueda.toLowerCase())
-);
-
-  if (cargando) return <h2 style={{color: 'white', textAlign: 'center'}}>Conectando con Green Amps...</h2>;
-  if (error) return <h2 style={{color: 'red', textAlign: 'center'}}>{error}</h2>;
+  // ==========================================
+  // 🚨 REGLA DE ORO: CONSOLE.LOG DE VERIFICACIÓN
+  // ==========================================
+  console.log("--- PROBANDO TU CUSTOM HOOK (useFetch) ---");
+  console.log("¿Está cargando?:", cargando);
+  console.log("¿Hay error?:", error);
+  console.log("Datos recibidos de internet:", data);
+  console.log("------------------------------------------");
 
   return (
-    <div style={{ backgroundColor: '#212529', color: 'white', minHeight: '100vh', padding: '20px' }}>
-      <h1 style={{ textAlign: 'center', color: '#198754' }}>Green Amps - Catálogo Avanzado</h1>
-      <p style={{ textAlign: 'center' }}>🛒 Total en Carrito: {totalCarrito}</p>
-      
-      {/* Buscador */}
-      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '30px' }}>
-        <input 
-          type="text" 
-          placeholder="Buscar amplificador por modelo..." 
-          value={busqueda} 
-          onChange={manejarBusqueda}
-          style={{
-            padding: '12px 20px',
-            width: '100%',
-            maxWidth: '400px',
-            borderRadius: '25px',
-            border: '2px solid #198754',
-            backgroundColor: '#333',
-            color: 'white',
-            fontSize: '1rem',
-            outline: 'none'
-          }}
-        />
-      </div>
+    <div className="body">
+      <header className="header">
+        <div className="logo">
+          <img src="imagenes/green amps1.png" className="logoamp" alt="logo" width="200" height="200" />
+        </div>
+        <h1 className="titulo1">GREEN AMPS - BANCO DE PRUEBAS</h1>
+      </header>
 
-      <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
-        {modelosFiltrados.length > 0 ? (
-          modelosFiltrados.map((item) => (
-            <Amplificador 
-              key={item.id} 
-              modelo={item.name} 
-              precio={item.id * 5000} 
-              onAgregar={sumarAlGlobal} 
-            />
-          ))
-        ) : (
-          <h3 style={{ color: '#aaa', marginTop: '20px' }}>No se encontraron amplificadores.</h3>
+      <main className="container py-5 text-center text-white">
+        <h2>Fase 1: Testeo de Conexión Inalámbrica</h2>
+        <p className="lead">Mirá la consola del navegador (F12) para ver si el Hook responde.</p>
+        
+        {/* Renderizado condicional según el estado del Hook */}
+        {cargando && <p className="text-warning fs-4">⏳ Conectando con el servidor...</p>}
+        {error && <p className="text-danger fs-4">❌ Error: {error}</p>}
+        
+        {!cargando && !error && (
+          <div className="alert alert-success mt-4">
+            ¡Conexión exitosa! El Hook trajo {data.length} elementos desde internet de forma limpia.
+          </div>
         )}
-      </div>
+      </main>
     </div>
   );
 }
-
-export default App;
