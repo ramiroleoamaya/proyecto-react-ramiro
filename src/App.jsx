@@ -1,42 +1,43 @@
-import { useState } from 'react';
-// 1. Importamos tu Custom Hook desde la carpeta hooks
-import { useFetch } from './hooks/useFetch'; 
+import { useEffect } from 'react';
+// Importamos tu hook global del carrito recién creado
+import { useCarritoStore } from './store/useCarritoStore';
 
 export default function App() {
-  // 2. Lo ejecutamos pasándole una URL de prueba (Trae una lista de usuarios simulados)
-  const { data, cargando, error } = useFetch('https://jsonplaceholder.typicode.com/users');
+  // Conectamos el estado del carrito y la acción de agregar
+  const carrito = useCarritoStore((state) => state.carrito);
+  const agregarProducto = useCarritoStore((state) => state.agregarProducto);
 
   // ==========================================
   // 🚨 REGLA DE ORO: CONSOLE.LOG DE VERIFICACIÓN
   // ==========================================
-  console.log("--- PROBANDO TU CUSTOM HOOK (useFetch) ---");
-  console.log("¿Está cargando?:", cargando);
-  console.log("¿Hay error?:", error);
-  console.log("Datos recibidos de internet:", data);
-  console.log("------------------------------------------");
+  useEffect(() => {
+    console.log("--- PROBANDO NUESTRO CARRITO GLOBAL (ZUSTAND) ---");
+    console.log("Estado actual del carrito:", carrito);
+    console.log("-------------------------------------------------");
+  }, [carrito]);
+
+  const probarBoton = () => {
+    // Mandamos un amplificador de prueba al almacén central inalámbrico
+    agregarProducto({ id: 1, name: "BOX-601 | 15W", precio: 150 });
+  };
 
   return (
-    <div className="body">
-      <header className="header">
-        <div className="logo">
-          <img src="imagenes/green amps1.png" className="logoamp" alt="logo" width="200" height="200" />
-        </div>
-        <h1 className="titulo1">GREEN AMPS - BANCO DE PRUEBAS</h1>
+    <div className="body" style={{ background: '#111', minHeight: '100vh', color: 'white', padding: '20px' }}>
+      <header className="header text-center py-3" style={{ borderBottom: '2px solid #198754' }}>
+        <h1 className="titulo1 text-success fw-bold">GREEN AMPS - PRUEBA DE ZUSTAND</h1>
       </header>
 
-      <main className="container py-5 text-center text-white">
-        <h2>Fase 1: Testeo de Conexión Inalámbrica</h2>
-        <p className="lead">Mirá la consola del navegador (F12) para ver si el Hook responde.</p>
+      <main className="container text-center py-5">
+        <h2 className="mb-3">Fase 2: El Carrito Inalámbrico</h2>
+        <p className="lead text-muted">Apretá el botón de abajo para despachar un equipo al store central.</p>
         
-        {/* Renderizado condicional según el estado del Hook */}
-        {cargando && <p className="text-warning fs-4">⏳ Conectando con el servidor...</p>}
-        {error && <p className="text-danger fs-4">❌ Error: {error}</p>}
-        
-        {!cargando && !error && (
-          <div className="alert alert-success mt-4">
-            ¡Conexión exitosa! El Hook trajo {data.length} elementos desde internet de forma limpia.
-          </div>
-        )}
+        <button className="btn btn-success btn-lg fw-bold my-4 px-5" onClick={probarBoton} style={{ fontSize: '1.2rem' }}>
+          🛒 Agregar BOX-601 de Prueba
+        </button>
+
+        <div className="alert alert-dark mx-auto mt-3" style={{ maxWidth: '400px', borderColor: '#198754' }}>
+          <h5>Equipos en el carrito: <span className="text-warning fw-bold">{carrito.length}</span></h5>
+        </div>
       </main>
     </div>
   );
