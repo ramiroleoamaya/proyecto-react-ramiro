@@ -1,44 +1,46 @@
-import { useEffect } from 'react';
-// Importamos tu hook global del carrito recién creado
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import Inicio from './components/Inicio';
+import Productos from './components/Productos';
 import { useCarritoStore } from './store/useCarritoStore';
 
 export default function App() {
-  // Conectamos el estado del carrito y la acción de agregar
   const carrito = useCarritoStore((state) => state.carrito);
-  const agregarProducto = useCarritoStore((state) => state.agregarProducto);
-
-  // ==========================================
-  // 🚨 REGLA DE ORO: CONSOLE.LOG DE VERIFICACIÓN
-  // ==========================================
-  useEffect(() => {
-    console.log("--- PROBANDO NUESTRO CARRITO GLOBAL (ZUSTAND) ---");
-    console.log("Estado actual del carrito:", carrito);
-    console.log("-------------------------------------------------");
-  }, [carrito]);
-
-  const probarBoton = () => {
-    // Mandamos un amplificador de prueba al almacén central inalámbrico
-    agregarProducto({ id: 1, name: "BOX-601 | 15W", precio: 150 });
-  };
 
   return (
-    <div className="body" style={{ background: '#111', minHeight: '100vh', color: 'white', padding: '20px' }}>
-      <header className="header text-center py-3" style={{ borderBottom: '2px solid #198754' }}>
-        <h1 className="titulo1 text-success fw-bold">GREEN AMPS - PRUEBA DE ZUSTAND</h1>
-      </header>
-
-      <main className="container text-center py-5">
-        <h2 className="mb-3">Fase 2: El Carrito Inalámbrico</h2>
-        <p className="lead text-muted">Apretá el botón de abajo para despachar un equipo al store central.</p>
+    <BrowserRouter>
+      <div className="body" style={{ background: '#111', minHeight: '100vh', color: 'white' }}>
         
-        <button className="btn btn-success btn-lg fw-bold my-4 px-5" onClick={probarBoton} style={{ fontSize: '1.2rem' }}>
-          🛒 Agregar BOX-601 de Prueba
-        </button>
+        {/* ENRUTADOR DEL MENÚ DE NAVEGACIÓN */}
+        <header className="header p-3" style={{ borderBottom: '2px solid #198754' }}>
+          <div className="text-center mb-2">
+            <img src="imagenes/green amps1.png" alt="Logo" width="100" className="img-fluid" />
+          </div>
+          <h1 className="titulo1 text-center text-success fw-bold h3 mb-3">AMPLIFICADORES DE BAJO Y GUITARRA</h1>
+          <nav className="navegador text-center">
+            <div className="d-flex justify-content-center gap-3 align-items-center flex-wrap">
+              <Link to="/" className="btn btn-outline-success btn-sm fw-bold">INICIO</Link>
+              <Link to="/productos" className="btn btn-outline-success btn-sm fw-bold">PRODUCTOS Y SERVICIOS</Link>
+              <span className="badge bg-danger p-2">🛒 Carrito: {carrito.length}</span>
+            </div>
+          </nav>
+        </header>
 
-        <div className="alert alert-dark mx-auto mt-3" style={{ maxWidth: '400px', borderColor: '#198754' }}>
-          <h5>Equipos en el carrito: <span className="text-warning fw-bold">{carrito.length}</span></h5>
-        </div>
-      </main>
-    </div>
+        {/* CONTENEDOR DINÁMICO */}
+        <main className="py-4">
+          <Routes>
+            {/* Rutas principales */}
+            <Route path="/" element={<Inicio />} />
+            <Route path="/productos" element={<Productos />} />
+            
+            {/* ATAJO PROTECTOR: Si entra por index.html, lo manda también al Inicio */}
+            <Route path="/index.html" element={<Inicio />} />
+          </Routes>
+        </main>
+
+        <footer className="text-center py-3 text-muted border-top border-success mt-5">
+          <p className="mb-0 text-white small">Green Amps © 2026</p>
+        </footer>
+      </div>
+    </BrowserRouter>
   );
 }
