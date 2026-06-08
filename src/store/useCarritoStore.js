@@ -2,26 +2,28 @@
 import { create } from 'zustand';
 
 export const useCarritoStore = create((set) => ({
-  // Estado inicial: el carrito arranca vacío
   carrito: [],
+  consultas: [], // Aquí se guardan las notas del taller mecánico
 
-  // Acción global para añadir amplificadores
-  agregarProducto: (producto) => set((state) => {
-    const existe = state.carrito.find((item) => item.id === producto.id);
+  // Funciones para el Carrito de compras
+  agregarAlCarrito: (producto) =>
+    set((state) => ({ carrito: [...state.carrito, producto] })),
 
-    if (existe) {
-      // Si el equipo ya estaba, le sumamos 1 a la cantidad
-      return {
-        carrito: state.carrito.map((item) =>
-          item.id === producto.id ? { ...item, cantidad: item.cantidad + 1 } : item
-        ),
-      };
-    }
+  eliminarDelCarrito: (id) =>
+    set((state) => ({
+      carrito: state.carrito.filter((item) => item.id !== id),
+    })),
 
-    // Si es nuevo, lo agregamos con cantidad base = 1
-    return { carrito: [...state.carrito, { ...producto, cantidad: 1 }] };
-  }),
-
-  // Acción para limpiar el carrito por completo
   vaciarCarrito: () => set({ carrito: [] }),
+
+  // Funciones para las Consultas / Pedidos del taller técnico
+  agregarConsulta: (texto) =>
+    set((state) => ({ consultas: [...state.consultas, texto] })),
+
+  eliminarConsulta: (indexEliminar) =>
+    set((state) => ({
+      consultas: state.consultas.filter((_, index) => index !== indexEliminar),
+    })),
+
+  vaciarConsultas: () => set({ consultas: [] }),
 }));

@@ -2,13 +2,16 @@
 export default function Inicio() {
     return (
       <section id="inicio" className="container py-5 text-center text-white">
-        <h2 className="text-success fw-bold mb-3">BIENVENIDOS A GREEN AMPS</h2>
+        <h2 className="text-success fw-bold mb-3"> BIENVENIDO A GREEN AMPS </h2>
         <p className="lead mb-4">
-          Diseñamos y fabricamos amplificadores con un sonido único y alta fidelidad para guitarra y bajo.
+                        Somos una empresa técnica familiar dedicada a la fabricación y venta de amplificadores
+                        para bajo y guitarra eléctricas.<br />
+                        Ubicados en Buenos Aires - Argentina.<br />
+                        Trabajamos para ayudarte a encontrar el sonido de tu voz artística desde 1991.
         </p>
         <div className="mb-4">
           <img 
-            src="imagenes/perillasamp1.jpeg" 
+            src="/imagenes/fotodeampsgreen.jpeg" 
             alt="Presentación Green Amps" 
             className="img-fluid rounded shadow border border-success" 
             style={{ maxHeight: '350px', objectFit: 'cover' }}
